@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purify/core/routes/route_helper.dart';
+import 'package:purify/features/navigation/views/main_navigation_screen.dart';
+import 'package:purify/features/onboarding/views/user_info_screen.dart';
 import '../../../core/widgets/toast_message.dart';
 import '../repositories/auth_repository.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
 import '../models/auth_response_model.dart';
+import 'package:purify/core/services/google_sheets_service.dart';
+import 'package:purify/features/onboarding/bindings/onboarding_binding.dart';
+import 'package:purify/features/navigation/bindings/main_navigation_binding.dart';
 
 class OtpController extends GetxController {
   final AuthRepository authRepository;
@@ -45,6 +50,8 @@ class OtpController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    // Save phone number when OTP screen is initialized
+    authService.savePhone(phoneNumber);
     for (var controller in otpControllers) {
       controller.addListener(_checkAndVerifyOtp);
     }
@@ -52,95 +59,51 @@ class OtpController extends GetxController {
 
   void _checkAndVerifyOtp() {
     if (otp.length == 4 && otpControllers.every((c) => c.text.isNotEmpty)) {
-      verifyOtp(phoneNumber, otp: otp);
+      verifyOtp();
     }
   }
 
-  Future<void> verifyOtp(String phone, {String? otp}) async {
-    if (otp == null || otp.length != 4) {
-      Get.snackbar('Error', 'Please enter complete OTP');
-      return;
-    }
-
-    isLoading = true;
-    update();
-
+  Future<void> verifyOtp() async {
     try {
-      /* Original Implementation
-      final response = await authRepository.verifyOtp(phone, otp);
+      isLoading = true;
+      update();
+
+      final phone = phoneNumber; // Use phoneNumber directly
       
-      if (response.statusCode == 200 && response.body != null) {
-        final authResponse = response.body!;
-        
-        if (!authResponse.success) {
-          Get.snackbar('Error', authResponse.message);
-          return;
-        }
+      // Mock OTP verification
+      await Future.delayed(const Duration(seconds: 1));
 
-        debugPrint('Token from response: ${authResponse.data.token}');
-
-        final user = UserModel(
-          token: authResponse.data.token,
-          phone: phone,
-          isProfileComplete: !authResponse.data.newUser
-        );
-        await authService.saveUserAndToken(user);
-
-        if (authResponse.data.newUser) {
-          Get.offAllNamed(RouteHelper.getUserInfoRoute());
-          return;
-        }
-
-        // Check profile completion
-        final profileResponse = await authRepository.getUserProfile();
-        if (profileResponse.statusCode == 200 && profileResponse.body != null) {
-          final userData = (profileResponse.body as Map<String, dynamic>)['data'];
-          final userProfile = UserModel.fromJson(userData);
-          
-          Get.offAllNamed(
-            userProfile.isProfileComplete 
-              ? RouteHelper.getMainNavigationRoute()
-              : RouteHelper.getUserInfoRoute()
-          );
-        } else {
-          Get.offAllNamed(RouteHelper.getUserInfoRoute());
-        }
-      } else {
-        Get.snackbar('Error', 'Invalid OTP');
+      // Check if phone is registered
+      final isRegistered = await GoogleSheetsService.isPhoneRegistered(phone);
+      if (!isRegistered) {
+        // New user - register in sheets
+        await GoogleSheetsService.registerNewUser(phone);
+        // Navigate to onboarding with binding
+        Get.off(() => const UserInfoScreen(), binding: OnboardingBinding());
+        return;
       }
-      */
 
-      // Mock Implementation
-      await Future.delayed(const Duration(seconds: 1)); // Simulate API delay
-      
-      final mockResponse = _mockVerifyOtpResponse;
-      
-      if (mockResponse['status'] == 'SUCCESS') {
-        final userData = mockResponse['data'] as Map<String, dynamic>;
-        
-        final user = UserModel(
-          token: userData['token'],
-          phone: userData['user']['phone'],
-          isProfileComplete: true  // For testing, set as complete
+      // Get existing user data
+      final existingUser = await GoogleSheetsService.getUserByPhone(phone);
+      if (existingUser != null && 
+          existingUser['name'].isNotEmpty && 
+          existingUser['gender'].isNotEmpty && 
+          existingUser['dob'].isNotEmpty && 
+          existingUser['healthIssues'].isNotEmpty) {
+        // Profile complete - go to main screen with binding
+        Get.offAll(() => const MainNavigationScreen(), 
+          binding: MainNavigationBinding()
         );
-        
-        await authService.saveUserAndToken(user);
-        
-        Get.snackbar(
-          'Success',
-          mockResponse['message'] as String,
-          snackPosition: SnackPosition.BOTTOM,
-        );
-
-        // Navigate to main screen
-        Get.offAllNamed(RouteHelper.getMainNavigationRoute());
       } else {
-        Get.snackbar('Error', 'Invalid OTP');
+        // Profile incomplete - go to onboarding
+        Get.off(() => const UserInfoScreen(), 
+          binding: OnboardingBinding()
+        );
       }
-      
+
     } catch (e) {
-      debugPrint('OTP verification error: $e');
-      Get.snackbar('Error', 'Failed to verify OTP');
+      debugPrint('Error verifying OTP: $e');
+      Get.snackbar('Error', 'Something went wrong');
     } finally {
       isLoading = false;
       update();

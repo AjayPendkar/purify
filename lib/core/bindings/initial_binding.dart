@@ -7,6 +7,7 @@ import '../../features/auth/controllers/auth_controller.dart';
 import '../config/app_config.dart';
 import '../services/connectivity_service.dart';
 import '../../features/profile/controllers/profile_controller.dart';
+import '../../features/time_picker/controllers/time_picker_controller.dart';
 
 class InitialBinding extends Bindings {
   @override
@@ -43,5 +44,8 @@ class InitialBinding extends Bindings {
 
     // Initialize ConnectivityService
     Get.put(ConnectivityService(), permanent: true);
+
+    // Add TimePickerController
+    Get.lazyPut(() => TimePickerController());
   }
 } 

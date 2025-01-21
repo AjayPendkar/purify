@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
+import '../constants/app_text_styles.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -45,11 +46,9 @@ class CustomButton extends StatelessWidget {
               )
             : Text(
                 text,
-                style: TextStyle(
-                  color: textColor ?? AppColors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: textColor != null 
+                    ? AppTextStyles.medium16.copyWith(color: textColor)
+                    : AppTextStyles.medium16.copyWith(color: AppColors.white),
               ),
       ),
     );

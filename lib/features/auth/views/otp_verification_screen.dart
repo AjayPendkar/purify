@@ -125,7 +125,7 @@ class OtpVerificationScreen extends StatelessWidget {
                 GetBuilder<OtpController>(
                   builder: (controller) => CustomButton(
                     text: 'Continue',
-                    onPressed: () => controller.verifyOtp(phoneNumber, otp: controller.otp),
+                    onPressed: controller.verifyOtp,
                     isLoading: controller.isLoading,
                     backgroundColor: AppColors.primary,
                   ),

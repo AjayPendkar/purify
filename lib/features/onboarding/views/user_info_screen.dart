@@ -10,7 +10,7 @@ import '../controllers/onboarding_controller.dart';
 import '../widgets/info_dialog.dart';
 
 class UserInfoScreen extends GetView<OnboardingController> {
-  const UserInfoScreen({super.key});
+const UserInfoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,23 +39,7 @@ class UserInfoScreen extends GetView<OnboardingController> {
                       children: [
                         const SizedBox(height: 10),
                         // Progress Bar
-                        Row(
-                          children: List.generate(
-                            3,
-                            (index) => Expanded(
-                              child: Container(
-                                height: 3,
-                                margin: const EdgeInsets.symmetric(horizontal: 2),
-                                decoration: BoxDecoration(
-                                  color: index <= controller.currentStep 
-                                      ? AppColors.primary 
-                                      : Colors.grey[300],
-                                  borderRadius: BorderRadius.circular(1.5),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        _buildStepper(context),
                       ],
                     ),
                   ),
@@ -725,6 +709,118 @@ class UserInfoScreen extends GetView<OnboardingController> {
               style: const TextStyle(
                 color: Colors.red,
                 fontSize: 12,
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildStepper(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: List.generate(
+            3,
+            (index) => Expanded(
+              child: Container(
+                height: 3,
+                margin: const EdgeInsets.symmetric(horizontal: 2),
+                decoration: BoxDecoration(
+                  color: index <= controller.currentStep 
+                      ? AppColors.primary 
+                      : Colors.grey[300],
+                  borderRadius: BorderRadius.circular(1.5),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 32),
+        // Use existing content based on step
+        if (controller.currentStep == 0)
+          _buildPersonalInfo(context)
+        else if (controller.currentStep == 1)
+          Column(
+            children: [
+              // Health Issues Section
+              TextField(
+                controller: controller.nameController,
+                onChanged: controller.filterHealthIssues,
+                decoration: InputDecoration(
+                  hintText: 'Search health issues',
+                  // ... rest of your existing search field decoration
+                ),
+              ),
+              // ... rest of your existing health issues list
+            ],
+          )
+        else
+          _buildTimePickerStep(context),
+      ],
+    );
+  }
+
+  // Add this new method
+  Widget _buildTimePickerStep(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'When do you\nwake up?',
+          style: AppTextStyles.bold24,
+        ),
+        const SizedBox(height: 12),
+        Text(
+          'Choose your wake up time between\n3:30 AM to 8:30 AM',
+          style: AppTextStyles.regular14.copyWith(
+            color: AppColors.greyDark,
+          ),
+        ),
+        const SizedBox(height: 40),
+        Center(
+          child: GestureDetector(
+            onTap: () => controller.selectTime(context),
+            child: Container(
+              padding: const EdgeInsets.all(32),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.access_time,
+                    size: 48,
+                    color: AppColors.primary,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    controller.selectedTime?.format(context) ?? 'Select Time',
+                    style: AppTextStyles.medium16,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        if (controller.selectedTime != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 24),
+            child: Center(
+              child: Text(
+                'Wake up time set to ${controller.selectedTime?.format(context)}',
+                style: AppTextStyles.regular14.copyWith(
+                  color: AppColors.primary,
+                ),
               ),
             ),
           ),

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import '../controllers/onboarding_controller.dart';
 import '../../auth/services/auth_service.dart';
 import '../../auth/repositories/auth_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingBinding extends Bindings {
   @override
@@ -18,6 +19,7 @@ class OnboardingBinding extends Bindings {
     Get.put(OnboardingController(
       authRepo: Get.find<AuthRepository>(),
       authService: Get.find<AuthService>(),
-    ), permanent: true);  // Make it permanent to avoid disposal issues
+      prefs: Get.find<SharedPreferences>(),
+    ));
   }
 } 

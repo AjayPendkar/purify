@@ -11,18 +11,18 @@ class MainNavigationBinding implements Bindings {
       Get.put(Get.find<AuthService>());
     }
 
-    // Put MainNavigationController with permanent flag
-    Get.lazyPut(
-      () => MainNavigationController(
+    // Put MainNavigationController immediately
+    Get.put(
+      MainNavigationController(
         authService: Get.find<AuthService>(),
       ),
-      fenix: true,  // Keep the controller instance alive
+      permanent: true, // Keep instance alive
     );
 
-    // Add CourseController binding
-    Get.lazyPut(
-      () => CourseController(),
-      fenix: true,  // Keep the controller instance alive
+    // Add CourseController
+    Get.put(
+      CourseController(),
+      permanent: true,
     );
   }
 } 

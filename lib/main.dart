@@ -8,9 +8,19 @@ import 'core/config/app_config.dart';
 import 'core/constants/app_colors.dart';
 import 'core/routes/route_helper.dart';
 import 'core/bindings/initial_binding.dart';
+import 'core/services/google_sheets_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+  
+  try {
+    print('Initializing Google Sheets...');
+    await GoogleSheetsService.init();
+    print('Google Sheets initialized');
+  } catch (e) {
+    print('Error initializing Google Sheets: $e');
+  }
   
   // Add error handling
   ErrorWidget.builder = (FlutterErrorDetails details) {

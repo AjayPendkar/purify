@@ -1,11 +1,32 @@
 import 'package:flutter/material.dart';
+import 'app_colors.dart';
 
 class AppTextStyles {
   // Regular Styles (w400)
-  static const TextStyle regular10 = TextStyle(fontFamily: 'Poppins-Regular', fontSize: 10, fontWeight: FontWeight.w400);
-  static const TextStyle regular12 = TextStyle(fontFamily: 'Poppins-Regular', fontSize: 12, fontWeight: FontWeight.w400);
-  static const TextStyle regular14 = TextStyle(fontFamily: 'Poppins-Regular', fontSize: 14, fontWeight: FontWeight.w400);
-  static const TextStyle regular16 = TextStyle(fontFamily: 'Poppins-Regular', fontSize: 16, fontWeight: FontWeight.w400);
+  static const TextStyle regular10 = TextStyle(
+    fontFamily: 'Poppins-Regular',
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    color: AppColors.black,
+  );
+  static const TextStyle regular12 = TextStyle(
+    fontFamily: 'Poppins-Regular',
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.black,
+  );
+  static const TextStyle regular14 = TextStyle(
+    fontFamily: 'Poppins-Regular',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.black,
+  );
+  static const TextStyle regular16 = TextStyle(
+    fontFamily: 'Poppins-Regular',
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.black,
+  );
 
   static const TextStyle regular18 = TextStyle(
     fontFamily: 'Poppins',
@@ -82,7 +103,12 @@ class AppTextStyles {
   // Regular Heading Styles (w400)
   static const TextStyle regularHeading10 = TextStyle(fontFamily: 'Poppins-Regular', fontSize: 10, fontWeight: FontWeight.w400);
   static const TextStyle regularHeading12 = TextStyle(fontFamily: 'Poppins-Regular', fontSize: 12, fontWeight: FontWeight.w400);
-  static const TextStyle regularHeading14 = TextStyle(fontFamily: 'Poppins-Regular', fontSize: 14, fontWeight: FontWeight.w400);
+  static const TextStyle regularHeading14 = TextStyle(
+    fontFamily: 'Poppins-Regular',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.black,
+  );
   static const TextStyle regularHeading16 = TextStyle(fontFamily: 'Poppins-Regular', fontSize: 16, fontWeight: FontWeight.w400);
   static const TextStyle regularHeading18 = TextStyle(fontFamily: 'Poppins', fontSize: 18, fontWeight: FontWeight.w400);
   static const TextStyle regularHeading20 = TextStyle(fontFamily: 'Poppins', fontSize: 20, fontWeight: FontWeight.w400);
@@ -101,7 +127,12 @@ class AppTextStyles {
   static const TextStyle medium10 = TextStyle(fontFamily: 'Poppins-Medium', fontSize: 10, fontWeight: FontWeight.w500);
   static const TextStyle medium12 = TextStyle(fontFamily: 'Poppins-Medium', fontSize: 12, fontWeight: FontWeight.w500);
   static const TextStyle medium14 = TextStyle(fontFamily: 'Poppins-Medium', fontSize: 14, fontWeight: FontWeight.w500);
-  static const TextStyle medium16 = TextStyle(fontFamily: 'Poppins-Medium', fontSize: 16, fontWeight: FontWeight.w500);
+  static const TextStyle medium16 = TextStyle(
+    fontFamily: 'Poppins-Medium',
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.black,
+  );
 
   static const TextStyle medium18 = TextStyle(
     fontFamily: 'Poppins',
@@ -125,6 +156,7 @@ class AppTextStyles {
     fontFamily: 'Poppins',
     fontSize: 24,
     fontWeight: FontWeight.w500,
+    color: AppColors.black,
   );
 
   static const TextStyle medium26 = TextStyle(
@@ -197,7 +229,12 @@ class AppTextStyles {
   static const TextStyle bold10 = TextStyle(fontFamily: 'Poppins-Bold', fontSize: 10, fontWeight: FontWeight.w700);
   static const TextStyle bold12 = TextStyle(fontFamily: 'Poppins-Bold', fontSize: 12, fontWeight: FontWeight.w700);
   static const TextStyle bold14 = TextStyle(fontFamily: 'Poppins-Bold', fontSize: 14, fontWeight: FontWeight.w700);
-  static const TextStyle bold16 = TextStyle(fontFamily: 'Poppins-Bold', fontSize: 16, fontWeight: FontWeight.w700);
+  static const TextStyle bold16 = TextStyle(
+    fontFamily: 'Poppins-Bold',
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: AppColors.black,
+  );
 
   static const TextStyle bold18 = TextStyle(
     fontFamily: 'Poppins',
@@ -288,4 +325,26 @@ class AppTextStyles {
   static const TextStyle boldHeading36 = TextStyle(fontFamily: 'Poppins', fontSize: 36, fontWeight: FontWeight.w700);
   static const TextStyle boldHeading38 = TextStyle(fontFamily: 'Poppins', fontSize: 38, fontWeight: FontWeight.w700);
   static const TextStyle boldHeading40 = TextStyle(fontFamily: 'Poppins', fontSize: 40, fontWeight: FontWeight.w700);
+
+  // Error and Special Styles
+  static const TextStyle error14 = TextStyle(
+    fontFamily: 'Poppins-Regular',
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.red,
+  );
+
+  static const TextStyle hint16 = TextStyle(
+    fontFamily: 'Poppins-Regular',
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.greyLight,
+  );
+
+  static const TextStyle buttonText16 = TextStyle(
+    fontFamily: 'Poppins-Medium',
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.white,
+  );
 } 

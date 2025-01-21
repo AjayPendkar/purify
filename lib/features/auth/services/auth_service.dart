@@ -9,7 +9,7 @@ import 'package:get_storage/get_storage.dart';
 class AuthService extends GetxService {
   final AuthRepository authRepository;
   final SharedPreferences prefs;
-  final _storage = GetStorage();
+  final GetStorage _storage = GetStorage();
   static const String TOKEN_KEY = 'auth_token';
   static const String USER_KEY = 'user_data';
   
@@ -123,7 +123,11 @@ class AuthService extends GetxService {
     }
   }
 
-  // Add method to get saved phone
+  // Save phone number when user enters it
+  Future<void> savePhone(String phone) async {
+    await _storage.write('phone', phone);
+  }
+
   String? getSavedPhone() {
     return _storage.read<String>('phone');
   }

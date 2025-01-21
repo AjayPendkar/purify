@@ -5,6 +5,7 @@ import 'package:purify/core/widgets/base_screen.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../controllers/login_controller.dart';
+import '../../../core/constants/app_text_styles.dart';
 
 class LoginScreen extends GetView<LoginController> {
   const LoginScreen({super.key});
@@ -31,10 +32,7 @@ class LoginScreen extends GetView<LoginController> {
                 const SizedBox(height: 24),
                 const Text(
                   'Login in or Sign up',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: AppTextStyles.medium24,
                 ),
                 const SizedBox(height: 32),
                 Container(
@@ -48,11 +46,7 @@ class LoginScreen extends GetView<LoginController> {
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: const Text(
                           '+91',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.black,
-                          ),
+                          style: AppTextStyles.medium16,
                         ),
                       ),
                       Container(
@@ -64,12 +58,14 @@ class LoginScreen extends GetView<LoginController> {
                         child: TextField(
                           controller: controller.phoneController,
                           keyboardType: TextInputType.phone,
+                          style: AppTextStyles.regular16,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                             LengthLimitingTextInputFormatter(10),
                           ],
                           decoration: const InputDecoration(
                             hintText: 'Phone number',
+                            hintStyle: AppTextStyles.regular16,
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
                               horizontal: 16,
@@ -88,7 +84,7 @@ class LoginScreen extends GetView<LoginController> {
                         controller.phoneController.text.isNotEmpty) {
                       return const Text(
                         'Please enter a valid mobile number',
-                        style: TextStyle(color: Colors.red, fontSize: 14),
+                        style: AppTextStyles.regular14,
                       );
                     }
                     return const SizedBox();

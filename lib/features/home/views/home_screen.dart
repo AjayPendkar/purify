@@ -73,135 +73,107 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildOverviewSection(BuildContext context) {
-    return Container(
-      height: ResponsiveFunctions().buildHeight(context, 300),
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const OverviewScreen()),
-              );
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Overview',
-                  style: AppTextStyles.medium16.copyWith(
-                    color: Colors.black,
-                    fontSize: ResponsiveFunctions().buildFont(context, 16),
-                  ),
-                ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.grey[600],
-                  size: ResponsiveFunctions().buildIconSize(context, 16),
-                ),
-              ],
-            ),
+    return Column(
+      children: [
+        // Overview header
+        GestureDetector(
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const OverviewScreen()),
           ),
-          SizedBox(height: ResponsiveFunctions().buildHeight(context, 16)),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Text('Overview', style: AppTextStyles.medium16),
+              Icon(Icons.arrow_forward_ios, color: AppColors.greyDark, size: 16),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        // Cards row
+        SizedBox(
+          height: ResponsiveFunctions().buildHeight(context, 300), // Fixed height for the row
+          child: Row(
+            children: [
+              // Left card (Upcoming)
               Expanded(
-                flex: 3,
                 child: _buildUpcomingClassCard(context),
               ),
-              SizedBox(width: ResponsiveFunctions().buildWidth(context, 16)),
+              const SizedBox(width: 16),
+              // Right column (Milestones & Active Courses)
               Expanded(
-                flex: 3,
                 child: Column(
                   children: [
-                    _buildMilestonesCard(context),
-                    SizedBox(height: ResponsiveFunctions().buildHeight(context, 16)),
-                    _buildActiveCoursesCard(context),
+                    Expanded(
+                    flex: 2,
+                      child: _buildMilestonesCard(context),
+                    ),
+                    const SizedBox(height: 6),
+                    Expanded(
+                      flex: 1,
+                      child: _buildActiveCoursesCard(context),
+                    ),
                   ],
                 ),
               ),
             ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget _buildUpcomingClassCard(BuildContext context) {
     return Container(
-     
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
+     decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Upcoming',
-                style: AppTextStyles.medium16.copyWith(
-                  color: Colors.black87,
-                  fontSize: ResponsiveFunctions().buildFont(context, 16),
-                ),
-              ),
-              Icon(
-                Icons.more_horiz,
-                color: Colors.grey[600],
-                size: 20,
-              ),
+              Text('Upcoming', style: AppTextStyles.medium16),
+              Icon(Icons.more_vert, color: AppColors.greyDark, size: 20),
             ],
           ),
-          SizedBox(height: ResponsiveFunctions().buildHeight(context, 16)),
+          const SizedBox(height: 24),
           Row(
             children: [
               ClipOval(
                 child: UniversalImage(
                   imagePath: 'assets/images/yoga1.jpg',
-                  height: 28,
-                  width: 28,
+                  height: 32,
+                  width: 32,
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(width: ResponsiveFunctions().buildWidth(context, 16)),
-              Text(
-                'Arvind Swamy',
-                style: AppTextStyles.medium14.copyWith(
-                  color: Colors.grey[800],
-                  fontSize: ResponsiveFunctions().buildFont(context, 14),
-                ),
-              ),
+              const SizedBox(width: 12),
+              Text('Arvind Swamy', style: AppTextStyles.medium14),
             ],
           ),
-          SizedBox(height: ResponsiveFunctions().buildHeight(context, 22)),
-          Text(
-            'Morning Yoga\nFlow',
-            style: AppTextStyles.bold24.copyWith(
-              color: Colors.black,
-              height: 1.2,
-              fontSize: ResponsiveFunctions().buildFont(context, 24),
-            ),
+          const Spacer(),
+          Text('Morning Yoga\nFlow', 
+            style: AppTextStyles.bold24.copyWith(height: 1.2),
           ),
-          SizedBox(height: ResponsiveFunctions().buildHeight(context, 22)),
+          const Spacer(),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: AppColors.chineseWhite,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Text(
-              '00hr 32min 18sec',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Colors.black87,
-              ),
-            ),
+            child: Text('00hr 32min 18sec', style: AppTextStyles.medium14),
           ),
         ],
       ),
@@ -210,99 +182,68 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildMilestonesCard(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.08),
-            blurRadius: 8,
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
             offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Header
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Milestones',
-                style: AppTextStyles.medium14.copyWith(
-                  color: Colors.black,
-                  fontSize: ResponsiveFunctions().buildFont(context, 14),
-                ),
-              ),
-              Icon(
-                Icons.more_horiz,
-                color: Colors.grey[400],
-                size: 12,
-              ),
+              Text('Milestones', style: AppTextStyles.medium14),
+              Icon(Icons.more_horiz, color: AppColors.greyDark, size: 24),
             ],
           ),
-          SizedBox(height: ResponsiveFunctions().buildHeight(context, 10)),
-          // Trophy icon
-          const Icon(
-            Icons.emoji_events_outlined,
-            size: 24,
-            color: Colors.black87,
+          const SizedBox(height: 24),
+          const Icon(Icons.emoji_events_outlined, 
+            size: 28,
+            color: Colors.black87
           ),
-          SizedBox(height: ResponsiveFunctions().buildHeight(context, 10)),
-          // Course title and progress
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                'Yoga for Stress Relief',
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87,
+          const SizedBox(height: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Yoga for Stress Relief',
+                  style: AppTextStyles.regular12,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-              Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              '01/23',
-              style: AppTextStyles.medium10.copyWith(
-                color: Colors.grey[600],
-                fontSize: ResponsiveFunctions().buildFont(context, 10),
-              ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: LinearProgressIndicator(
+                    value: 0.4,
+                    backgroundColor: AppColors.greyLight.withOpacity(0.3),
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.black),
+                    minHeight: 2,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '01/23',
+                    style: AppTextStyles.regular12.copyWith(
+                      color: AppColors.greyDark
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-            ],
-          ),
-          SizedBox(height: ResponsiveFunctions().buildHeight(context, 12)),
-          // Progress bar and count
-          Stack(
-            children: [
-              // Background line
-              Container(
-                height: 2,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(1),
-                ),
-              ),
-              // Progress line
-              Container(
-                height: 2,
-                width: 50, // Adjust width based on progress (e.g., 01/23)
-                decoration: BoxDecoration(
-                  color: Colors.black87,
-                  borderRadius: BorderRadius.circular(1),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: ResponsiveFunctions().buildHeight(context, 8)),
-          // Progress count
-          
         ],
       ),
     );
@@ -310,33 +251,40 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildActiveCoursesCard(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height/9,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text( 
-                'Active Courses',
-                style: AppTextStyles.medium14.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: ResponsiveFunctions().buildFont(context, 14),
-                ),
-              ),
-              Icon(Icons.more_horiz, color: Colors.grey[600]),
+              Text('Ongoing Courses', style: AppTextStyles.medium14),
+              Icon(Icons.more_horiz, color: AppColors.greyDark, size: 24),
             ],
           ),
-          SizedBox(height: ResponsiveFunctions().buildHeight(context, 8)),
-          Text('2', 
-            style: AppTextStyles.medium20.copyWith(
-              fontSize: ResponsiveFunctions().buildFont(context, 20),
-            ),
+          const Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('2', style: AppTextStyles.bold24),
+              Icon(Icons.arrow_forward_ios, 
+                color: AppColors.greyDark, 
+                size: 20
+              ),
+            ],
           ),
         ],
       ),
@@ -351,12 +299,9 @@ class HomeScreen extends StatelessWidget {
         color: AppColors.chineseWhite,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: const Text(
+      child: Text(
         'Transform Your Life Through Purify',
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
+        style: AppTextStyles.medium16,
       ),
     );
   }
@@ -404,14 +349,11 @@ class HomeScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Active Courses',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: AppTextStyles.medium18,
               ),
-              Icon(Icons.chevron_right, color: Colors.grey[600]),
+              Icon(Icons.chevron_right, color: AppColors.greyDark),
             ],
           ),
         ),
@@ -437,14 +379,14 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCourseCard(BuildContext context,{bool showProgress = false}) {
+  Widget _buildCourseCard(BuildContext context, {bool showProgress = false}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: Container(
-            color: Colors.green,
+            color: AppColors.green,
             child: UniversalImage(
               imagePath: 'assets/images/yoga1.jpg',
               height: 120,
@@ -453,70 +395,45 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: ResponsiveFunctions().buildHeight(context, 8)),
-        const Text(
-          'Pranayama for Stress Relief',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        SizedBox(height: ResponsiveFunctions().buildHeight(context, 4)),
+        const SizedBox(height: 8),
+        Text('Pranayama for Stress Relief', style: AppTextStyles.medium16),
+        const SizedBox(height: 4),
         Row(
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: Colors.grey[300],
+                color: AppColors.greyLight,
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: const Text(
-                'Beginner',
-                style: TextStyle(fontSize: 12),
-              ),
+              child: Text('Beginner', style: AppTextStyles.regular12),
             ),
-            SizedBox(width: ResponsiveFunctions().buildWidth(context, 8)),
-            Text(
-              '32 Sessions',
-              style: AppTextStyles.regular12.copyWith(
-                color: Colors.grey[600],
-                fontSize: ResponsiveFunctions().buildFont(context, 12),
-              ),
-            ),
+            const SizedBox(width: 8),
+            Text('32 Sessions', style: AppTextStyles.regular12),
           ],
         ),
         if (showProgress) ...[
-          SizedBox(height: ResponsiveFunctions().buildHeight(context, 8)),
+          const SizedBox(height: 8),
           LinearProgressIndicator(
             value: 0.25,
-            backgroundColor: Colors.grey[300],
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+            backgroundColor: AppColors.greyLight,
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.green),
           ),
-          SizedBox(height: ResponsiveFunctions().buildHeight(context, 4)),
-          Text(
-            '25%',
-            style: AppTextStyles.regular12.copyWith(
-              color: Colors.grey[600],
-              fontSize: ResponsiveFunctions().buildFont(context, 12),
-            ),
-          ),
+          const SizedBox(height: 4),
+          Text('25%', style: AppTextStyles.regular12),
         ],
-        SizedBox(height: ResponsiveFunctions().buildHeight(context, 8)),
+        const SizedBox(height: 8),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF2E4F4F),
+              backgroundColor: AppColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: const Text(
-              'Enroll',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
+            child: Text('Enroll', style: AppTextStyles.medium16.copyWith(color: AppColors.white)),
           ),
         ),
       ],
@@ -589,13 +506,7 @@ class HomeScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Today's Activity",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        Text("Today's Activity", style: AppTextStyles.medium18),
         SizedBox(height: ResponsiveFunctions().buildHeight(context, 16)),
         SizedBox(
           height: ResponsiveFunctions().buildHeight(context, 400), // Fixed height container
